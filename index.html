@@ -32,12 +32,15 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             color: var(--dark);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 2rem;
+            flex: 1;
         }
         
         header {
@@ -386,6 +389,26 @@
             font-size: 1rem;
             color: var(--success);
         }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
         
         @media (max-width: 768px) {
             .container {
@@ -622,6 +645,11 @@
             <p>Expect responses within 24-48 hours.</p>
         </div>
     </div>
+
+    <footer>
+        <p>&copy; 2025 RentEcho. All rights reserved. <br>
+        Contact us at <a href="mailto:contact@rentalecho.com">contact@rentalecho.com</a></p>
+    </footer>
 
     <script>
         // Set default move-in date to next month
