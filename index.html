@@ -184,7 +184,7 @@
             flex: 1;
         }
         
-        /* AMENITIES GRID - NEW STYLING */
+        /* AMENITIES GRID */
         .amenities-section {
             margin: 2rem 0;
         }
@@ -290,6 +290,7 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         
+        /* CONFIRMATION STYLES */
         .confirmation {
             display: none;
             text-align: center;
@@ -299,7 +300,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
         
-        .confirmation i {
+        .confirmation i.fa-check-circle {
             font-size: 4rem;
             color: var(--success);
             margin-bottom: 1.5rem;
@@ -311,15 +312,26 @@
             color: var(--dark);
         }
         
-        .confirmation p {
-            margin-bottom: 1.5rem;
-            color: var(--gray);
+        .confirmation-message {
+            background: #f0f9ff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem auto;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .confirmation-icon {
+            color: var(--primary);
+            font-size: 1.5rem;
         }
         
         .requirements-list {
             text-align: left;
             max-width: 400px;
-            margin: 0 auto 2rem;
+            margin: 1.5rem auto;
         }
         
         .requirements-list li {
@@ -332,6 +344,14 @@
         .requirements-list i {
             font-size: 1rem;
             color: var(--success);
+        }
+        
+        .response-time {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--gray);
         }
         
         @media (max-width: 768px) {
@@ -362,6 +382,11 @@
             
             .amenities-grid {
                 grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .confirmation-message {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
@@ -424,7 +449,6 @@
                     </div>
                 </div>
                 
-                <!-- NEW AMENITIES GRID -->
                 <div class="amenities-section">
                     <h3 class="amenities-title">Select Your Must-Have Features</h3>
                     <div class="amenities-grid">
@@ -546,18 +570,23 @@
         
         <div class="confirmation" id="confirmation">
             <i class="fas fa-check-circle"></i>
-            <h2>Request Submitted!</h2>
-            <p>We've notified landlords in your area who match your criteria.</p>
+            <h2>Your Rental Request Has Been Sent!</h2>
+            
+            <div class="confirmation-message">
+                <i class="fas fa-bullhorn confirmation-icon"></i>
+                <span id="locationMessage"></span>
+            </div>
             
             <ul class="requirements-list">
                 <li><i class="fas fa-check"></i> <strong>Budget:</strong> <span id="confirmBudget"></span></li>
                 <li><i class="fas fa-check"></i> <strong>Property Type:</strong> <span id="confirmType"></span></li>
                 <li><i class="fas fa-check"></i> <strong>Bedrooms:</strong> <span id="confirmBedrooms"></span></li>
-                <li><i class="fas fa-check"></i> <strong>Location:</strong> <span id="confirmLocation"></span></li>
                 <li><i class="fas fa-check"></i> <strong>Amenities:</strong> <span id="confirmAmenities"></span></li>
             </ul>
             
-            <p>Expect responses within 24-48 hours.</p>
+            <p class="response-time">
+                <i class="fas fa-clock"></i> Expect responses within 24-48 hours
+            </p>
         </div>
     </div>
 
@@ -616,12 +645,18 @@
                 notes: document.getElementById('notes').value
             };
             
-            // Display confirmation
+            // Custom location message
+            const locationMessage = formData.location 
+                ? `We've notified landlords in <strong>${formData.location}</strong> with matching properties.`
+                : "We've alerted our network of landlords with your criteria.";
+            
+            document.getElementById('locationMessage').innerHTML = locationMessage;
+            
+            // Display confirmation details
             document.getElementById('confirmBudget').textContent = `$${formData.budget}/month`;
             document.getElementById('confirmType').textContent = formData.propertyType === 'any' ? 'Any' : 
                 formData.propertyType.charAt(0).toUpperCase() + formData.propertyType.slice(1);
             document.getElementById('confirmBedrooms').textContent = formData.bedrooms === 'any' ? 'Any' : `${formData.bedrooms}+`;
-            document.getElementById('confirmLocation').textContent = formData.location || 'Not specified';
             document.getElementById('confirmAmenities').textContent = formData.amenities.length > 0 ? 
                 formData.amenities.join(', ') : 'None specified';
             
