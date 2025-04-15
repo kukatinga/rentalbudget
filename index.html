@@ -1,1 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentEcho | Smart Rental Matching</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --dark: #2b2d42;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --warning: #f72585;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        nav a {
+            margin-left: 1.5rem;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--dark);
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .form-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .form-header p {
+            color: #6c757d;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .range-container {
+            position: relative;
+            padding-top: 1.5rem;
+        }
+        
+        .range-value {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            padding: 0;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            background: var(--primary-light);
+        }
+        
+        .inline-fields {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .inline-fields .form-group {
+            flex: 1;
+        }
+        
+        .amenities {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .amenity-item input {
+            width: auto;
+        }
+        
+        .amenity-item label {
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+        
+        button {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .location-detect {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            font-weight: 500;
+            margin-top: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .location-detect i {
+            font-size: 1rem;
+        }
+        
+        .confirmation {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .confirmation i {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 1.5rem;
+        }
+        
+        .confirmation h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .confirmation p {
+            margin-bottom: 1.5rem;
+            color: #6c757d;
+        }
+        
+        .requirements-list {
+            text-align: left;
+            max-width: 400px;
+            margin: 0 auto 2rem;
+        }
+        
+        .requirements-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .requirements-list i {
+            font-size: 1rem;
+            color: var(--success);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            nav {
+                display: flex;
+                gap: 1rem;
+            }
+            
+            nav a {
+                margin-left: 0;
+            }
+            
+            .inline-fields {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .amenities {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-bullhorn"></i>
+                <span>RentEcho</span>
+            </div>
+            <nav>
+                <a href="#">How It Works</a>
+                <a href="#">For Landlords</a>
+                <a href="#">Login</a>
+            </nav>
+        </header>
+        
+        <div class="hero">
+            <h1>Find Your Perfect Rental</h1>
+            <p class="subtitle">Tell us what you need once. We'll alert landlords who match your criteria.</p>
+        </div>
+        
+        <div class="form-container" id="rentalForm">
+            <div class="form-header">
+                <h2>Your Rental Preferences</h2>
+                <p>Complete this once and let landlords come to you</p>
+            </div>
+            
+            <form id="rentalPreferencesForm">
+                <div class="form-group">
+                    <label for="budget">Maximum Monthly Budget</label>
+                    <div class="range-container">
+                        <span class="range-value" id="budgetValue">$1,500</span>
+                        <input type="range" id="budget" min="800" max="5000" step="100" value="1500">
+                    </div>
+                </div>
+                
+                <div class="inline-fields">
+                    <div class="form-group">
+                        <label for="propertyType">Property Type</label>
+                        <select id="propertyType">
+                            <option value="any">Any Type</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="house">House</option>
+                            <option value="condo">Condo</option>
+                            <option value="studio">Studio</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bedrooms">Bedrooms</label>
+                        <select id="bedrooms">
+                            <option value="any">Any</option>
+                            <option value="1">1+</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Amenities</label>
+                    <div class="amenities">
+                        <div class="amenity-item">
+                            <input type="checkbox" id="pets" name="amenities" value="pet-friendly">
+                            <label for="pets">Pet Friendly</label>
+                        </div>
+                        <div class="amenity-item">
+                            <input type="checkbox" id="laundry" name="amenities" value="laundry">
+                            <label for="laundry">Laundry</label>
+                        </div>
+                        <div class="amenity-item">
+                            <input type="checkbox" id="parking" name="amenities" value="parking">
+                            <label for="parking">Parking</label>
+                        </div>
+                        <div class="amenity-item">
+                            <input type="checkbox" id="furnished" name="amenities" value="furnished">
+                            <label for="furnished">Furnished</label>
+                        </div>
+                        <div class="amenity-item">
+                            <input type="checkbox" id="ac" name="amenities" value="ac">
+                            <label for="ac">Air Conditioning</label>
+                        </div>
+                        <div class="amenity-item">
+                            <input type="checkbox" id="accessible" name="amenities" value="accessible">
+                            <label for="accessible">Wheelchair Access</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Preferred Location</label>
+                    <input type="text" id="location" placeholder="Neighborhood, City, or ZIP" required>
+                    <div class="location-detect" id="detectLocation">
+                        <i class="fas fa-location-arrow"></i>
+                        <span>Use my current location</span>
+                    </div>
+                </div>
+                
+                <div class="inline-fields">
+                    <div class="form-group">
+                        <label for="moveInDate">Move-In Date</label>
+                        <input type="date" id="moveInDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="leaseTerm">Lease Term</label>
+                        <select id="leaseTerm">
+                            <option value="12">1 Year</option>
+                            <option value="6">6 Months</option>
+                            <option value="month-to-month">Month-to-Month</option>
+                            <option value="flexible">Flexible</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" placeholder="you@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Additional Notes (Optional)</label>
+                    <textarea id="notes" rows="3" placeholder="Special requests, pet details, etc."></textarea>
+                </div>
+                
+                <button type="submit">
+                    <i class="fas fa-paper-plane"></i> Alert Landlords
+                </button>
+            </form>
+        </div>
+        
+        <div class="confirmation" id="confirmation">
+            <i class="fas fa-check-circle"></i>
+            <h2>Request Submitted!</h2>
+            <p>We've notified landlords in your area who match your criteria.</p>
+            
+            <ul class="requirements-list">
+                <li><i class="fas fa-check"></i> <strong>Budget:</strong> <span id="confirmBudget"></span></li>
+                <li><i class="fas fa-check"></i> <strong>Property Type:</strong> <span id="confirmType"></span></li>
+                <li><i class="fas fa-check"></i> <strong>Bedrooms:</strong> <span id="confirmBedrooms"></span></li>
+                <li><i class="fas fa-check"></i> <strong>Location:</strong> <span id="confirmLocation"></span></li>
+                <li><i class="fas fa-check"></i> <strong>Amenities:</strong> <span id="confirmAmenities"></span></li>
+            </ul>
+            
+            <p>Expect responses within 24-48 hours.</p>
+        </div>
+    </div>
 
+    <script>
+        // Budget slider update
+        const budgetSlider = document.getElementById('budget');
+        const budgetValue = document.getElementById('budgetValue');
+        
+        budgetSlider.addEventListener('input', () => {
+            budgetValue.textContent = `$${parseInt(budgetSlider.value).toLocaleString()}`;
+        });
+
+        // Location detection
+        document.getElementById('detectLocation').addEventListener('click', () => {
+            const locationInput = document.getElementById('location');
+            locationInput.placeholder = "Detecting...";
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        try {
+                            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`);
+                            const data = await response.json();
+                            locationInput.value = data.address.neighbourhood || 
+                                               data.address.suburb || 
+                                               data.address.city_district || 
+                                               data.address.city;
+                        } catch {
+                            locationInput.value = "";
+                            locationInput.placeholder = "Couldn't detect location";
+                        }
+                    },
+                    () => {
+                        locationInput.placeholder = "Location access denied";
+                    }
+                );
+            } else {
+                locationInput.placeholder = "Geolocation not supported";
+            }
+        });
+
+        // Form submission
+        document.getElementById('rentalPreferencesForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const formData = {
+                budget: budgetSlider.value,
+                propertyType: document.getElementById('propertyType').value,
+                bedrooms: document.getElementById('bedrooms').value,
+                amenities: Array.from(document.querySelectorAll('input[name="amenities"]:checked')).map(el => el.value),
+                location: document.getElementById('location').value,
+                moveInDate: document.getElementById('moveInDate').value,
+                leaseTerm: document.getElementById('leaseTerm').value,
+                email: document.getElementById('email').value,
+                notes: document.getElementById('notes').value
+            };
+            
+            // Display confirmation
+            document.getElementById('confirmBudget').textContent = `$${formData.budget}/month`;
+            document.getElementById('confirmType').textContent = formData.propertyType === 'any' ? 'Any' : 
+                formData.propertyType.charAt(0).toUpperCase() + formData.propertyType.slice(1);
+            document.getElementById('confirmBedrooms').textContent = formData.bedrooms === 'any' ? 'Any' : `${formData.bedrooms}+`;
+            document.getElementById('confirmLocation').textContent = formData.location || 'Not specified';
+            document.getElementById('confirmAmenities').textContent = formData.amenities.length > 0 ? 
+                formData.amenities.join(', ') : 'None specified';
+            
+            // Show confirmation, hide form
+            document.getElementById('rentalForm').style.display = 'none';
+            document.getElementById('confirmation').style.display = 'block';
+            
+            // In a real app, you would send this data to your backend
+            console.log('Form data:', formData);
+            // fetch('/api/submit-request', { method: 'POST', body: JSON.stringify(formData) });
+        });
+    </script>
+</body>
+</html>
