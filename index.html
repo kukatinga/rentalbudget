@@ -444,6 +444,7 @@
             </div>
             
             <form id="rentalPreferencesForm">
+                <!-- 1. Maximum Monthly Budget -->
                 <div class="form-group">
                     <label>Maximum Monthly Budget</label>
                     <div class="range-container">
@@ -452,6 +453,7 @@
                     </div>
                 </div>
                 
+                <!-- 2. Approximate Credit Score -->
                 <div class="form-group">
                     <label for="creditScore">Approximate Credit Score (Optional)</label>
                     <div class="credit-score-container">
@@ -472,47 +474,49 @@
                     <span class="verify-btn">Verify my score securely</span>
                 </div>
                 
-                <div class="inline-fields">
-                    <div class="form-group">
-                        <label for="propertyType">Property Type</label>
-                        <select id="propertyType">
-                            <option value="any">Any Type</option>
-                            <option value="apartment">Apartment</option>
-                            <option value="house">House</option>
-                            <option value="condo">Condo</option>
-                            <option value="studio">Studio</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="bedrooms">Bedrooms</label>
-                        <select id="bedrooms">
-                            <option value="any">Any</option>
-                            <option value="1">1+</option>
-                            <option value="2">2+</option>
-                            <option value="3">3+</option>
-                            <option value="4">4+</option>
-                        </select>
-                    </div>
+                <!-- 3. Move-In Date -->
+                <div class="form-group">
+                    <label for="moveInDate">Move-In Date</label>
+                    <input type="date" id="moveInDate" min="<?php echo date('Y-m-d'); ?>">
                 </div>
                 
-                <div class="inline-fields">
-                    <div class="form-group">
-                        <label for="moveInDate">Move-In Date</label>
-                        <input type="date" id="moveInDate" min="<?php echo date('Y-m-d'); ?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="leaseTerm">Lease Term</label>
-                        <select id="leaseTerm">
-                            <option value="flexible">Flexible</option>
-                            <option value="month-to-month">Month-to-Month</option>
-                            <option value="6">6 Months</option>
-                            <option value="12" selected>1 Year</option>
-                            <option value="24">2 Years</option>
-                        </select>
-                    </div>
+                <!-- 4. Lease Term -->
+                <div class="form-group">
+                    <label for="leaseTerm">Lease Term</label>
+                    <select id="leaseTerm">
+                        <option value="flexible">Flexible</option>
+                        <option value="month-to-month">Month-to-Month</option>
+                        <option value="6">6 Months</option>
+                        <option value="12" selected>1 Year</option>
+                        <option value="24">2 Years</option>
+                    </select>
                 </div>
                 
+                <!-- 5. Property Type -->
+                <div class="form-group">
+                    <label for="propertyType">Property Type</label>
+                    <select id="propertyType">
+                        <option value="any">Any Type</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="house">House</option>
+                        <option value="condo">Condo</option>
+                        <option value="studio">Studio</option>
+                    </select>
+                </div>
+                
+                <!-- 6. Bedrooms -->
+                <div class="form-group">
+                    <label for="bedrooms">Bedrooms</label>
+                    <select id="bedrooms">
+                        <option value="any">Any</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                    </select>
+                </div>
+                
+                <!-- 7. Must-Have Features -->
                 <div class="amenities-section">
                     <h3 class="amenities-title">Select Your Must-Have Features</h3>
                     <div class="amenities-grid">
@@ -566,11 +570,26 @@
                     </div>
                 </div>
                 
+                <!-- 8. Preferred Location -->
                 <div class="form-group">
                     <label for="location">Preferred Location</label>
                     <input type="text" id="location" placeholder="Neighborhood, City, or ZIP" required>
                 </div>
                 
+                <!-- 9. Name -->
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Your name" required>
+                </div>
+                
+                <!-- 10. Phone Number -->
+                <div class="form-group">
+                    <label for="phone">Phone Number (Optional)</label>
+                    <input type="tel" id="phone" placeholder="(123) 456-7890">
+                    <small class="text-muted">For faster communication with landlords</small>
+                </div>
+                
+                <!-- 11. Email -->
                 <div class="form-group">
                     <label for="email">Your Email</label>
                     <input type="email" id="email" placeholder="you@example.com" required>
@@ -590,11 +609,12 @@
             <ul class="requirements-list">
                 <li><i class="fas fa-check"></i> <strong>Budget:</strong> <span id="confirmBudget"></span></li>
                 <li><i class="fas fa-check"></i> <strong>Credit Score:</strong> <span id="confirmCreditScore"></span></li>
-                <li><i class="fas fa-check"></i> <strong>Property Type:</strong> <span id="confirmType"></span></li>
-                <li><i class="fas fa-check"></i> <strong>Bedrooms:</strong> <span id="confirmBedrooms"></span></li>
                 <li><i class="fas fa-check"></i> <strong>Move-In Date:</strong> <span id="confirmMoveInDate"></span></li>
                 <li><i class="fas fa-check"></i> <strong>Lease Term:</strong> <span id="confirmLeaseTerm"></span></li>
+                <li><i class="fas fa-check"></i> <strong>Property Type:</strong> <span id="confirmType"></span></li>
+                <li><i class="fas fa-check"></i> <strong>Bedrooms:</strong> <span id="confirmBedrooms"></span></li>
                 <li><i class="fas fa-check"></i> <strong>Location:</strong> <span id="confirmLocation"></span></li>
+                <li><i class="fas fa-check"></i> <strong>Contact:</strong> <span id="confirmContact"></span></li>
             </ul>
             
             <p>Expect responses within 24-48 hours.</p>
@@ -607,7 +627,7 @@
         nextMonth.setMonth(nextMonth.getMonth() + 1);
         document.getElementById('moveInDate').valueAsDate = nextMonth;
 
-        // Budget slider update
+        // 1. Budget slider update
         const budgetSlider = document.getElementById('budget');
         const budgetValue = document.getElementById('budgetValue');
         
@@ -615,7 +635,7 @@
             budgetValue.textContent = `$${parseInt(budgetSlider.value).toLocaleString()}`;
         });
 
-        // Credit Score Logic
+        // 2. Credit Score Logic
         const creditScoreInput = document.getElementById('creditScore');
         const creditScoreValue = document.getElementById('creditScoreValue');
         const creditScoreLabel = document.getElementById('creditScoreLabel');
@@ -645,14 +665,37 @@
             e.preventDefault();
             
             const formData = {
+                // 1. Budget
                 budget: budgetSlider.value,
+                
+                // 2. Credit Score
                 creditScore: creditScoreInput.value,
-                propertyType: document.getElementById('propertyType').value,
-                bedrooms: document.getElementById('bedrooms').value,
+                
+                // 3. Move-In Date
                 moveInDate: document.getElementById('moveInDate').value,
+                
+                // 4. Lease Term
                 leaseTerm: document.getElementById('leaseTerm').value,
+                
+                // 5. Property Type
+                propertyType: document.getElementById('propertyType').value,
+                
+                // 6. Bedrooms
+                bedrooms: document.getElementById('bedrooms').value,
+                
+                // 7. Amenities
                 amenities: Array.from(document.querySelectorAll('input[name="amenities"]:checked')).map(el => el.value),
+                
+                // 8. Location
                 location: document.getElementById('location').value,
+                
+                // 9. Name
+                name: document.getElementById('name').value,
+                
+                // 10. Phone
+                phone: document.getElementById('phone').value,
+                
+                // 11. Email
                 email: document.getElementById('email').value
             };
             
@@ -660,9 +703,6 @@
             document.getElementById('confirmBudget').textContent = `$${formData.budget}/month`;
             document.getElementById('confirmCreditScore').textContent = formData.creditScore ? 
                 `${formData.creditScore} (${creditScoreLabel.textContent})` : 'Not provided';
-            document.getElementById('confirmType').textContent = formData.propertyType === 'any' ? 'Any' : 
-                formData.propertyType.charAt(0).toUpperCase() + formData.propertyType.slice(1);
-            document.getElementById('confirmBedrooms').textContent = formData.bedrooms === 'any' ? 'Any' : `${formData.bedrooms}+`;
             
             const moveInDate = formData.moveInDate ? 
                 new Date(formData.moveInDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 
@@ -674,7 +714,16 @@
                 formData.leaseTerm === 'month-to-month' ? 'Month-to-Month' :
                 `${formData.leaseTerm} Month${formData.leaseTerm !== '1' ? 's' : ''}`;
             
+            document.getElementById('confirmType').textContent = formData.propertyType === 'any' ? 'Any' : 
+                formData.propertyType.charAt(0).toUpperCase() + formData.propertyType.slice(1);
+            
+            document.getElementById('confirmBedrooms').textContent = formData.bedrooms === 'any' ? 'Any' : `${formData.bedrooms}+`;
             document.getElementById('confirmLocation').textContent = formData.location;
+            
+            const contactInfo = [formData.name];
+            if (formData.phone) contactInfo.push(formData.phone);
+            contactInfo.push(formData.email);
+            document.getElementById('confirmContact').textContent = contactInfo.join(' • ');
             
             document.getElementById('rentalForm').style.display = 'none';
             document.getElementById('confirmation').style.display = 'block';
